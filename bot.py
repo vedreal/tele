@@ -71,8 +71,8 @@ async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Cek apakah ada pesan yang mau di-broadcast
     if not context.args:
         await update.message.reply_text(
-            "📢 Cara pakai:\n/broadcast <pesan kamu>\n\n"
-            "Contoh:\n/broadcast 🎁 WOOT tokens ready to collect!"
+            "📢 How to use:\n/broadcast <your message>\n\n"
+            "Example:\n/broadcast 🎁 WOOT tokens ready to collect!"
         )
         return
     
@@ -90,7 +90,7 @@ async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
     success = 0
     failed = 0
     
-    await update.message.reply_text(f"📤 Sending broadcast to {len(users)} user...")
+    await update.message.reply_text(f"📤 Sending broadcast to {len(users)} users...")
     
     for user_id in users:
         try:
@@ -124,4 +124,18 @@ def main():
         return
     
     print(f"✅ Bot token: {BOT_TOKEN[:10]}...")
-    print(
+    print(f"✅ Miniapp URL: {MINIAPP_URL}")
+    print(f"✅ Admin ID: {ADMIN_ID}")
+    
+    application = Application.builder().token(BOT_TOKEN).build()
+    
+    # Handler commands
+    application.add_handler(CommandHandler("start", start))
+    application.add_handler(CommandHandler("broadcast", broadcast))
+    application.add_handler(CommandHandler("stats", stats))
+    
+    print("✅ Bot is running...")
+    application.run_polling()
+
+if __name__ == '__main__':
+    main()
